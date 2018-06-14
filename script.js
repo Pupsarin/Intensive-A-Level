@@ -1,7 +1,7 @@
 
 /**
  * Check if DOM fully loaded.
- **/
+ */
 var domReady = function(callback) {
 	'use strict';
 	if (document.readyState === 'interactive' || document.readyState === 'complete') {
@@ -13,7 +13,7 @@ var domReady = function(callback) {
 
 /** 
  * Main script
- **/
+ */
 domReady(function() {
 	'use strict';
 
@@ -27,7 +27,7 @@ domReady(function() {
  * On press of "Enter" button.
  * 
  * Execute sendMessege function.
- **/
+ */
 	document.querySelector('body').onkeydown = function(e) {
 		if (e.keyCode == 13) {
 			sendMessage(e);
@@ -37,10 +37,10 @@ domReady(function() {
 
 /** 
  * Send a message to the bottom.
- * 
+ *
  * Reset input field.
  * Generate username until backend part isn't active.
- **/
+ */
 	function sendMessage() {
 		var arrMsg = document.getElementById('arrMsg');
 		var message = document.getElementById('message');
@@ -58,7 +58,7 @@ domReady(function() {
 /** Generate random color.
  *  
  * Ensure that generated color wouldn't duplicate the previous one
- **/
+ */
 	function randomColor() {
 		var colors = ['148, 0, 211','75, 0, 130', '0, 0, 255', '0, 255, 0', '255, 127, 0', '255, 0, 0'];
 		var tagColorStyle = document.getElementById('arrMsg').lastElementChild.getElementsByTagName('SPAN')[0];
