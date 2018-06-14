@@ -44,12 +44,14 @@ domReady(function() {
 	function sendMessage() {
 		var arrMsg = document.getElementById('arrMsg');
 		var message = document.getElementById('message');
+		var chat = document.getElementById('chat');
 		if (message.value) {
 			var newLi = document.createElement('li');
 			newLi.innerHTML = "<span style='color:rgb("+ randomColor() +")'>" + user + i +":</span> " + message.value;
 			i++;
 			message.value = "";
 			arrMsg.appendChild(newLi);
+			chat.scrollTop = chat.scrollHeight;
 		}
 	};
 
@@ -67,6 +69,5 @@ domReady(function() {
 		while ("rgb(" + colors[x] + ")" == colour);
 		return colors[x];
 	}
-
 });
 
