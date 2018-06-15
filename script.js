@@ -17,7 +17,7 @@ var domReady = function(callback) {
 domReady(function() {
 	'use strict';
 
-	var i = 5;
+	var i = 0;
 	var user = 'user';
 	var send = document.getElementById('send');
 	
