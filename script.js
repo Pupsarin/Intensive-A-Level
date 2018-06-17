@@ -17,8 +17,6 @@ var domReady = function(callback) {
 domReady(function() {
 	'use strict';
 
-	var i = 0;
-	var user = 'user';
 	var send = document.getElementById('send');
 	
 	send.onclick = sendMessage;
@@ -43,16 +41,44 @@ domReady(function() {
  */
 	function sendMessage() {
 		var arrMsg = document.getElementById('arrMsg');
-		var message = document.getElementById('message');
+		var messageDiv = document.getElementById('message');
+		var nick = document.getElementById('nick');
 		var chat = document.getElementById('chat');
-		if (message.value) {
+		if (messageDiv.value) {
 			var newLi = document.createElement('li');
-			newLi.innerHTML = "<span style='color:rgb("+ randomColor() +")'>" + user + i +":</span> " + message.value;
-			i++;
-			message.value = "";
-			arrMsg.appendChild(newLi);
+			//newLi.innerHTML = "<span style='color:rgb("+ randomColor() +")'>" + nick.value +":</span> " + message.value;
+			jsonPost('http://localhost:3000', {action: "ADD_MESSAGE", nick: nick.value, message: message.value}) //отправляем данные на адрес localhost:3000 с объектом с двумя ключами - data и time
+			
+			setInterval(() => {
+				jsonPost('http://localhost:3000', {action: "GET_MESSAGES"}).then( data => {
+					arrMsg.innerHTML = '';
+					data.data.forEach(message => arrMsg.innerHTML += `<li><span>${message.nick}:</span>${message.message}</li>`)
+					chat.scrollTop = chat.scrollHeight;
+				});
+			}, 2000)
+			
+			messageDiv.value = "";
+			//arrMsg.appendChild(newLi);
 			chat.scrollTop = chat.scrollHeight;
 		}
+	};
+
+	function jsonPost(url, data) {
+			return new Promise((resolve, reject) => {
+					var x = new XMLHttpRequest();   
+					x.onerror = () => reject(new Error('jsonPost failed'));
+					x.open("POST", url, true);
+					x.send(JSON.stringify(data));
+
+					x.onreadystatechange = () => {
+							if (x.readyState == XMLHttpRequest.DONE && x.status == 200){
+									resolve(JSON.parse(x.responseText));
+							}
+							else if (x.status != 200){
+									reject(new Error('status is not 200'));
+							}
+					}
+			})
 	};
 
 /** Generate random color.
